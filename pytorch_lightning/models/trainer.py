@@ -280,6 +280,7 @@ class Trainer(TrainerIO):
         # put on gpu if needed
         if self.on_gpu:
             model = LightningDataParallel(model, device_ids=self.data_parallel_device_ids)
+            model.cuda(self.data_parallel_device_ids[0])
 
         # run tiny validation to make sure program won't crash during val
         _ = self.validate(model, self.val_dataloader, max_batches=self.nb_sanity_val_steps)
